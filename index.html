@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AJAX-Based Navigation</title>
+        <meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <style>
+            @media (min-width: 768px) {
+                .container {
+                    max-width: 730px;
+                }
+            }
+            .header {
+                margin-top: 30px;
+                border-bottom: 1px solid #EEE;
+            }
+            .header h2 {
+                margin-top: 0;
+                line-height: 40px;
+            }
+            #stage {
+                padding: 15px;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script>
+            function stageContent(content) {
+                $("#stage").html(content);
+            }
+            
+            $(function(){
+                $.get("home.html", stageContent);
+                document.title = "Home";
+                //Make the ID home the active class
+                $("#home").addClass("active");
+
+                $("nav[role=navigation] a").click(function(e) {
+                    e.preventDefault();
+                    var request = $(this).attr("href");
+                    //Remove the active class when a new button is selected from the menu
+                    $(".active").removeClass("active");
+                        
+
+                    if (request == "about") {
+                        $.get("about.html", stageContent);
+                        //Change the title of the page to match the about portion
+                        document.title = "About";
+                        //Have the "About" section of the nav bar become active
+                        $("#about").addClass("active");
+                        window.history.pushState('about', 'About', '/challenge3/about');
+
+
+
+
+                    }
+                    else if (request == "contact") {
+                        $.get("contact.html", stageContent);
+                        //Change the title of the page to match the contact portion
+                        document.title = "Contact";
+                        //Have the "Contact" section of the nav bar become active
+                        $("#contact").addClass("active");
+                        window.history.pushState('contact', 'Contact', '/challenge3/contact');
+
+                    }
+                    else {
+                        $.get("home.html", stageContent);
+                        //Change the title of the page to match the home portion
+                        document.title = "Home";
+                        //Have the "Home" section of the nav bar become active
+                        $("#home").addClass("active");
+                        window.history.pushState('home', 'Home', '/challenge3/');
+                    }
+
+
+
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header clearfix">
+                <nav role="navigation">
+                    <ul class="nav nav-pills pull-right">
+                        <li id="home"><a class="menu" href="./">Home</a></li>
+                        <li id="about"><a class="menu" href="about">About</a></li>
+                        <li id="contact"><a class="menu" href="contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <h2 class="text-muted">AJAX Navigation</h2>
+            </div>
+            <div id="stage"></div>
+        </div>
+    </body>
+</html>
